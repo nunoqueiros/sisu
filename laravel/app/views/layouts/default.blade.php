@@ -82,6 +82,7 @@
 					<li {{ (Request::is('vistas') ? 'class="active"' : '') }}><a href="{{ URL::to('vistas') }}">Vistas</a></li>
 					<li {{ (Request::is('variaveis') ? 'class="active"' : '') }}><a href="{{ URL::to('variaveis') }}">Variaveis</a></li>
 					<li {{ (Request::is('dadosclinicos') ? 'class="active"' : '') }}><a href="{{ URL::to('dadosclinicos') }}">Dados Clínicos</a></li>
+					<li {{ (Request::is('triggers') ? 'class="active"' : '') }}><a href="{{ URL::to('triggers') }}">Triggers</a></li>
 				@endif
 	          </ul>
 	          <ul class="nav navbar-nav navbar-right">

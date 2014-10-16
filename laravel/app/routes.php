@@ -71,8 +71,6 @@ Route::get('get_campos/{id_estrutura}', 'VariavelController@get_campos');
 // Group Routes
 Route::resource('groups', 'GroupController');
 
-
-
 // Pacientes
 Route::resource('pacientes', 'PacienteController');
 
@@ -108,6 +106,11 @@ Route::get('vistas_respetivas/{id_tipodadoclinico}/{id_especialidade}', 'DadosCl
 Route::get('vistas_desassociadas/{id_tipodadoclinico}/{id_especialidade}', 'DadosClinicosController@vistas_desassociadas');
 Route::get('add_tipodadoclinico', 'DadosClinicosController@add_tipodadoclinico');
 
+// Triggers
+Route::resource('triggers', 'TriggersController');
+Route::get('get_acoesValidas/{id_variavel}', 'TriggersController@get_acoesValidas');
+Route::get('get_campos/{id_acao}', 'TriggersController@get_campos');
+Route::get('get_configVariavel/{id_variavel}', 'TriggersController@get_configVariavel');
 
 
 Route::get('/', array('as' => 'home', function()

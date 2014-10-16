@@ -38,14 +38,25 @@ class VariavelController extends \BaseController {
 	public function store()
 	{
 		//
-		$result = Input::all();
+		$input = Input::all();
 
-		return $result;
+		$id_variavel = DB::table('Variavel')->insertGetId(array('nome' =>$input['nome'], 'id_tipo' =>$input['tipo'], 'id_estrutura' =>$input['estrutura']));
 
-		$id_variavel = DB::table('Variavel')->insertGetId(array('nome' =>$result['nome'], 'id_tipo' =>$result['tipo'], 'id_estrutura' =>$result['estrutura']));
+		// se estrutura=lista
+		if($input['estrutura']==1) {
 
-		//$id = DB::table('TipoVariavel_EstruturaVariavel')->insertGetId(array('id_tipo'=>$result['tipo'], 'id_estrutura'=>$result['estrutura']));
-
+			foreach($input["Valor"] as $valor) {
+				$id_config = DB::table('ConfigVariavel')->insertGetId(array('id_variavel' =>$id_variavel, 'id_campo' => "3", 'valor' =>$valor));
+			}	
+		}
+		// se estrutura=intervalo
+		elseif($input['estrutura']==2) {
+			// insere o valor mínimo
+			$id_config = DB::table('ConfigVariavel')->insertGetId(array('id_variavel' =>$id_variavel, 'id_campo' => "1", 'valor' =>$input["Mínimo"][0]));
+			
+			// insere o valor máximo
+			$id_config = DB::table('ConfigVariavel')->insertGetId(array('id_variavel' =>$id_variavel, 'id_campo' => "2", 'valor' =>$input["Máximo"][0]));
+		}	
 
     	return Redirect::action('VariavelController@show', array($id_variavel));
 
@@ -84,7 +95,12 @@ class VariavelController extends \BaseController {
 
 		$estrutura = DB::table('EstruturaVariavel')->where('id',$variavel->id_estrutura)->first();
 
-		return View::make('variaveis.show')->with('variavel', $variavel)->with('tipo', $tipo)->with('estrutura',$estrutura);
+		$campos = DB::table('ConfigVariavel')
+						->join('Campos', 'ConfigVariavel.id_campo','=','Campos.id')
+						->where('id_variavel', $variavel->id)
+						->get();
+
+		return View::make('variaveis.show')->with('variavel', $variavel)->with('tipo', $tipo)->with('estrutura',$estrutura)->with('campos',$campos);
 	}
 
 

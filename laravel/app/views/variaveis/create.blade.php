@@ -104,15 +104,23 @@ $(document).ready(function() {
 
                             //se tipo=inteiro
                             if(tipo==1){
-                                str = str + '<label for="' + data[i]["nome"] + '">' + data[i]["nome"] + '</label><input class="form-control" type="number" placeholder="0" name="' + data[i]["nome"] + '">';
+                                str = str + '<label for="' + data[i]["nome"] + '">' + data[i]["nome"] + '</label><input class="form-control" type="number" placeholder="0" name="' + data[i]["nome"] + '[]">';
                             }
                             // se tipo=decimal
                             else if(tipo==4) {
-                                str = str + '<label for="' + data[i]["nome"] + '">' + data[i]["nome"] + '</label><input class="form-control" type="number" step="0.01" placeholder="0.0" name="' + data[i]["nome"] + '">';
+                                str = str + '<label for="' + data[i]["nome"] + '">' + data[i]["nome"] + '</label><input class="form-control" type="number" step="0.01" placeholder="0.0" name="' + data[i]["nome"] + '[]">';
                             }
                             // se tipo=texto
                             else if(tipo==2) {
-                                str = str + '<label for="' + data[i]["nome"] + '">' + data[i]["nome"] + '</label><input class="form-control" type="text" placeholder="' + data[i]["nome"] + '" name="' + data[i]["nome"] + '">';
+                                str = str + '<label for="' + data[i]["nome"] + '">' + data[i]["nome"] + '</label><input class="form-control" type="text" placeholder="' + data[i]["nome"] + '" name="' + data[i]["nome"] + '[]">';
+                            }
+                            // se tipo=data (nao suportado por firefox)
+                            else if(tipo==5) {
+                                str = str + '<label for="' + data[i]["nome"] + '">' + data[i]["nome"] + '</label><input class="form-control" type="date" name="' + data[i]["nome"] + '[]">';
+                            }
+                            // se tipo=hora (nao suportado por firefox)
+                            else if(tipo==6) {
+                                str = str + '<label for="' + data[i]["nome"] + '">' + data[i]["nome"] + '</label><input class="form-control" type="time" name="' + data[i]["nome"] + '[]">';
                             }
 
                             ++i;
@@ -120,7 +128,7 @@ $(document).ready(function() {
 
                         $("#campos").html("");
                         if(estrutura==1) {
-                            $("#campos").append(str + '<button id="button_associar_especialidades_vistas" type="button" class="btn btn-link" style="float:right">Novo Valor</button>');
+                            $("#campos").append(str + '<button type="button" class="btn btn-link button_novo_valor" style="float:right">Novo Valor</button>');
                         }
                         else {
                             $("#campos").append(str);
@@ -135,6 +143,29 @@ $(document).ready(function() {
         else {
             $("#campos").html("");
         }
+    });
+
+    $('#campos').on('click', '.button_novo_valor', function() {
+    
+        var tipo = $("#tipo").val();
+
+        var str='';
+
+        // se tipo=inteiro
+        if(tipo==1) {
+            str = '<label for="Valor">Valor</label><input class="form-control" type="number" placeholder="0" name="Valor[]">';
+        }
+        // se tipo=decimal
+        else if(tipo==4) {
+            str = '<label for="Valor">Valor</label><input class="form-control" type="number" step="0.01" placeholder="0.0" name="Valor[]">';
+        }
+        // se tipo=texto
+        else if(tipo==2) {
+            str = '<label for="Valor">Valor</label><input class="form-control" type="text" placeholder="Valor" name="Valor[]">';            
+        }
+
+        $(str).insertBefore(".button_novo_valor");
+        
     });
 
 });
